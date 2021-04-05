@@ -3,7 +3,7 @@ function [Y,sizeh,sizel]=sample_dictionary(img_path,number_of_patches,scale,patc
 img_list=dir(fullfile([img_path, '*.bmp']));%lists the content of the directory of that respective path (lists all training images)
 number_of_img=size(img_list,1);
 
-numel_img=zeros(number_of_img,1); 
+numel_img=zeros(number_of_img,1);     % numar de pixeli din imagine
 patches_in_img=zeros(number_of_img,1); 
 
 %get the number of elements of each image
@@ -26,7 +26,7 @@ for i=1:number_of_img
     current_img=current_img(1:img_sizel(1),1:img_sizel(2));
     
     %imgl = imresize(current_img, 1/scale);
-    %imgl=imresize(imgl,scale);
+    %imgl = imresize(imgl,scale);
     
     imgl=current_img;
     feat_scale=2;
@@ -36,8 +36,9 @@ for i=1:number_of_img
 
      % extract gradient feature from lIm using f1,f2,f3,f4 in sec.3.2 of [1]
         % from an upsampled image of size feat_scale=2.
-    imgm = imresize(imgl, feat_scale,'bicubic');
-    imgh = imresize(imgl, scale,'bicubic');
+    imgm = imresize(imgl, feat_scale, 'bicubic');
+    imgh = imresize(imgl, scale, 'bicubic');
+    
     patch_sizeh = patch_sizel*scale;
     patch_sizem = patch_sizel*feat_scale; %image by factor of two using Bicubic interpolation, and then extract gradient features from it
     fea=[]; %feature extraction operator
